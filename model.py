@@ -4,7 +4,7 @@ import torch.nn.functional as F
 import torch.optim as optim
 import scipy.io
 import numpy as np
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 from torch.utils.data import DataLoader
 
 # ========= Define Model Components =========
