@@ -89,7 +89,7 @@ def create_pdf(content):
 # --- Generate Report Button ---
 if st.button("Generate Report"):
     # --- Trigger the API ---
-    api_url = " https://8d23-203-82-54-66.ngrok-free.app/predict-from-saved/"  # Replace with your actual FastAPI host/port if different
+    api_url = "https://5caf-203-82-54-66.ngrok-free.app/predict-from-saved/"  # Replace with your actual FastAPI host/port if different
     try:
         response = requests.get(api_url)
         response.raise_for_status()
