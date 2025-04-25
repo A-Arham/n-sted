@@ -63,7 +63,7 @@ if st.button("Submit"):
             # --- Post to FastAPI endpoint ---
             with open(tmp_path, "rb") as f:
                 files = {"file": (eeg_file.name, f, "application/octet-stream")}
-                response = requests.post(" https://8d23-203-82-54-66.ngrok-free.app/run_inference/", files=files)  # Replace with your actual API URL
+                response = requests.post("https://5caf-203-82-54-66.ngrok-free.app/run_inference/", files=files)  # Replace with your actual API URL
 
             # --- Handle response ---
             if response.status_code == 200:
