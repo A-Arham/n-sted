@@ -22,3 +22,34 @@
 | `final_conv`      | Conv1d(64→1, kernel=1)                   | `[1, 64, 376]`         | `[1, 1, 376]`          | Output logits                        |
 | `crop/pad`        | Align output to match input length       | `[1, 1, 376]`          | `[1, 1, 374]`          | Final alignment                      |
 | `sigmoid`         | Element-wise sigmoid                     | `[1, 1, 374]`          | `[1, 1, 374]`          | Probability mask                     |
+
+
+
+# EEG1DCNN Architecture
+This CNN classifies the predicted trial (By the previous model) as MDD or not. 
+
+**Input Shape:** `[1, 1, 384]`
+
+| Layer Name | Type                     | Input Shape       | Output Shape      | Details                              |
+|------------|--------------------------|--------------------|--------------------|--------------------------------------|
+| `conv1`    | Conv1d                   | `[1, 1, 384]`      | `[1, 16, 384]`     | kernel=7, stride=1, padding=3        |
+| `bn1`      | BatchNorm1d              | `[1, 16, 384]`     | `[1, 16, 384]`     |                                      |
+| `pool1`    | MaxPool1d                | `[1, 16, 384]`     | `[1, 16, 192]`     | kernel=2                             |
+| `drop1`    | Dropout                  | `[1, 16, 192]`     | `[1, 16, 192]`     | p = 0.3                              |
+| `conv2`    | Conv1d                   | `[1, 16, 192]`     | `[1, 32, 192]`     | kernel=5, stride=1, padding=2        |
+| `bn2`      | BatchNorm1d              | `[1, 32, 192]`     | `[1, 32, 192]`     |                                      |
+| `pool2`    | MaxPool1d                | `[1, 32, 192]`     | `[1, 32, 96]`      | kernel=2                             |
+| `drop2`    | Dropout                  | `[1, 32, 96]`      | `[1, 32, 96]`      | p = 0.3                              |
+| `conv3`    | Conv1d                   | `[1, 32, 96]`      | `[1, 64, 96]`      | kernel=3, stride=1, padding=1        |
+| `bn3`      | BatchNorm1d              | `[1, 64, 96]`      | `[1, 64, 96]`      |                                      |
+| `pool3`    | MaxPool1d                | `[1, 64, 96]`      | `[1, 64, 48]`      | kernel=2                             |
+| `drop3`    | Dropout                  | `[1, 64, 48]`      | `[1, 64, 48]`      | p = 0.3                              |
+| `flatten`  | View                     | `[1, 64, 48]`      | `[1, 3072]`        | 64 × 48 = 3072                       |
+| `fc1`      | Linear                   | `[1, 3072]`        | `[1, 128]`         | Fully connected                      |
+| `drop_fc`  | Dropout                  | `[1, 128]`         | `[1, 128]`         | p = 0.5                              |
+| `fc2`      | Linear                   | `[1, 128]`         | `[1, 2]`           | Final classification layer           |
+
+**Output:** `[1, 2]` (class scores)
+
+
+
